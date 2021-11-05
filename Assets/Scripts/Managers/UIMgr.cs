@@ -9,6 +9,10 @@ public class UIMgr : MonoBehaviour
     public Canvas uiroot;
     public bool dontDestroy;
     private Dictionary<string, GameObject> panelDic = new Dictionary<string, GameObject>();
+    public GameObject panel_1;
+    public GameObject panel_2;
+    public GameObject panel_3;
+    public GameObject panel_4;
 
     private void Awake()
     {
@@ -43,10 +47,33 @@ public class UIMgr : MonoBehaviour
     {
         if (!panelDic.ContainsKey(panelName))
         {
-            GameObject obj = Resources.Load<GameObject>("UI/" + panelName);
-            GameObject panel = Instantiate(obj, uiroot.transform);
-            panelDic.Add(panelName, panel);
-            return panel;
+            if (panelName == "StartPanel")
+            {
+                //GameObject obj = Resources.Load<GameObject>("UI/" + panelName);
+                GameObject panel = Instantiate(panel_1, uiroot.transform);
+                panelDic.Add(panelName, panel);
+                return panel;
+
+            }
+            if (panelName == "EndPanel")
+            {
+                GameObject panel = Instantiate(panel_2, uiroot.transform);
+                panelDic.Add(panelName, panel);
+                return panel;
+            }
+            if (panelName == "GamePanel")
+            {
+                GameObject panel = Instantiate(panel_3, uiroot.transform);
+                panelDic.Add(panelName, panel);
+                return panel;
+            }
+            if (panelName == "TimePanel")
+            {
+                GameObject panel = Instantiate(panel_4, uiroot.transform);
+                panelDic.Add(panelName, panel);
+                return panel;
+            }
+            return null;
         }
         else { 
             return panelDic[panelName];

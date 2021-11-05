@@ -10,24 +10,26 @@ public class LevelGenerator : MonoBehaviour
     public Transform leftTop;
     public GameObject tilePre;
     private MyTile[,] LeftTopTiles;
+    
+    public GameObject PP;
 
-    int[,] levelMap =
+    public static int[,] levelMap =
     {
-    {1,2,2,2,2,2,2,2,2,2,2,2,2,7},
-    {2,5,5,5,5,5,5,5,5,5,5,5,5,4},
-    {2,5,3,4,4,3,5,3,4,4,4,3,5,4},
-    {2,6,4,0,0,4,5,4,0,0,0,4,5,4},
-    {2,5,3,4,4,3,5,3,4,4,4,3,5,3},
-    {2,5,5,5,5,5,5,5,5,5,5,5,5,5},
-    {2,5,3,4,4,3,5,3,3,5,3,4,4,4},
-    {2,5,3,4,4,3,5,4,4,5,3,4,4,3},
-    {2,5,5,5,5,5,5,4,4,5,5,5,5,4},
-    {1,2,2,2,2,1,5,4,3,4,4,3,0,4},
-    {0,0,0,0,0,2,5,4,3,4,4,3,0,3},
-    {0,0,0,0,0,2,5,4,4,0,0,0,0,0},
-    {0,0,0,0,0,2,5,4,4,0,3,4,4,0},
-    {2,2,2,2,2,1,5,3,3,0,4,0,0,0},
-    {0,0,0,0,0,0,5,0,0,0,4,0,0,0},
+        {1,2,2,2,2,2,2,2,2,2,2,2,2,7},
+        {2,5,5,5,5,5,5,5,5,5,5,5,5,4},
+        {2,5,3,4,4,3,5,3,4,4,4,3,5,4},
+        {2,6,4,0,0,4,5,4,0,0,0,4,5,4},
+        {2,5,3,4,4,3,5,3,4,4,4,3,5,3},
+        {2,5,5,5,5,5,5,5,5,5,5,5,5,5},
+        {2,5,3,4,4,3,5,3,3,5,3,4,4,4},
+        {2,5,3,4,4,3,5,4,4,5,3,4,4,3},
+        {2,5,5,5,5,5,5,4,4,5,5,5,5,4},
+        {1,2,2,2,2,1,5,4,3,4,4,3,0,4},
+        {0,0,0,0,0,2,5,4,3,4,4,3,0,3},
+        {0,0,0,0,0,2,5,4,4,0,0,0,0,0},
+        {0,0,0,0,0,2,5,4,4,0,3,4,4,0},
+        {2,2,2,2,2,1,5,3,3,0,4,0,0,0},
+        {0,0,0,0,0,0,5,0,0,0,4,0,0,0},
     };
 
     void Start()
@@ -53,6 +55,11 @@ public class LevelGenerator : MonoBehaviour
                 if (tileInfo.tileType != TileType.None && tileInfo.tileType != TileType.PowerPllet &&
                     tileInfo.tileType != TileType.Pellet)
                 {
+                    LeftTopTiles[r, c] = tile;
+                }
+                if (tileInfo.tileType == TileType.PowerPllet)
+                {
+                    //Instantiate(PP, LeftTopTiles[r, c].transform.position,Quaternion.identity);
                     LeftTopTiles[r, c] = tile;
                 }
             }
@@ -85,7 +92,11 @@ public class LevelGenerator : MonoBehaviour
                 SetRotation(curTile, leftTile, rightTile, downTile, upTile);
             }
         }
+        LeftTopTiles[4, 13].transform.rotation = Quaternion.Euler(0, 0, 90);
+        LeftTopTiles[10, 13].transform.rotation = Quaternion.Euler(0, 0, 90);
+        LeftTopTiles[9, 8].transform.rotation = Quaternion.Euler(0, 0, 90);
 
+     
         GameObject leftBottom = Instantiate(leftTop.gameObject,leftTop.parent);
         leftBottom.transform.rotation = Quaternion.Euler(180,0,0);
         leftBottom.name = "leftBottom";
@@ -97,6 +108,12 @@ public class LevelGenerator : MonoBehaviour
         GameObject rightBottom = Instantiate(rightTop, leftTop.parent);
         rightBottom.transform.rotation = Quaternion.Euler(180, 180, 0);
         rightBottom.name = "rightBottom";
+
+        Instantiate(PP, new Vector3(-12.5f, 11f, 0f), Quaternion.identity, transform);
+        Instantiate(PP, new Vector3(12.5f, 11f, 0f), Quaternion.identity, transform);
+        Instantiate(PP, new Vector3(12.5f, -11f, 0f), Quaternion.identity, transform);
+        Instantiate(PP, new Vector3(-12.5f, -11f, 0f), Quaternion.identity, transform);
+
     }
 
     void SetRotation(MyTile _cur, MyTile _left, MyTile _right, MyTile _down, MyTile _up)
