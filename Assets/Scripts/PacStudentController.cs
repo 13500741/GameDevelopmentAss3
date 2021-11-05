@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PacmanCtrl : MonoBehaviour
+public class PacStudentController : MonoBehaviour
 {
     [SerializeField]
     private float speed = 1f;
@@ -20,6 +20,9 @@ public class PacmanCtrl : MonoBehaviour
     private Vector3 moveDir;
     private bool canMove;
     private bool isDead;
+    private char lastInput;
+    private char currentInput;
+    private float goflag = 0f;
 
 
     private void Awake()
@@ -35,6 +38,7 @@ public class PacmanCtrl : MonoBehaviour
 
     }
 
+    
     private void Update()
     {
         if (GameMgr.inst.gameState != GameState.Play) return;
@@ -56,7 +60,14 @@ public class PacmanCtrl : MonoBehaviour
 
         if (canMove)
         {
-            transform.position += moveDir * speed * Time.fixedDeltaTime;
+            goflag += speed * Time.fixedDeltaTime;
+            if (goflag >= 1 && LevelGenerator.levelMap[(14 - (int)(transform.position.y + moveDir.y)), (int)(transform.position.x + moveDir.x + 13.5)] == 5) 
+            {
+                //print(LevelGenerator.levelMap[(int)(transform.position.x + moveDir.x + 13.5), (14 - (int)(transform.position.y + moveDir.y))]);
+                transform.position += moveDir;
+                goflag = 0f;
+            }
+            
             if (!source.isPlaying)
             {
                 source.Play();
@@ -68,13 +79,25 @@ public class PacmanCtrl : MonoBehaviour
     {
         Vector3Int dir = Vector3Int.zero;
         if (_x > 0f)
+        {
             dir = Vector3Int.right;
+            lastInput = 'd';
+        }
         else if (_x < 0f)
+        {
             dir = Vector3Int.left;
+            lastInput = 'a';
+        }
         else if (_y < 0f)
+        {
             dir = Vector3Int.down;
+            lastInput = 's';
+        }
         else if (_y > 0f)
+        {
             dir = Vector3Int.up;
+            lastInput = 'w';
+        }
 
         return dir;
     }

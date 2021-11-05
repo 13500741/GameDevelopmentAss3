@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class StartPanel : MonoBehaviour
 {
@@ -14,11 +15,18 @@ public class StartPanel : MonoBehaviour
 
     void OnStartClick()
     {
-        UIMgr.inst.ClosePanel<StartPanel>();
-        UIMgr.inst.OpenPanel<TimePanel>();
+        if(SceneManager.GetActiveScene().name == "Assess3")
+        {
+            UIMgr.inst.ClosePanel<StartPanel>();
+            UIMgr.inst.OpenPanel<TimePanel>();
+        }
+       
     }
     void OnQuitClick()
     {
-        Application.Quit();
+        UIMgr.inst.ClosePanel<StartPanel>();
+        UIMgr.inst.ClosePanel<GamePanel>();
+        SceneManager.LoadScene(0);
+        //Application.Quit();
     }
 }
